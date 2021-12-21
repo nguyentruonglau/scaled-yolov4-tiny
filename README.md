@@ -15,7 +15,7 @@ Scaled YoloV4 Tiny, this is the implementation of "[Scaled-YOLOv4: Scaling Cross
 | Model | Test Size | AP<sup>test</sup> | AP<sup>test</sup>(TTA) | FPS | GPU | CPU | PARAM | CAPACITY |
 | :-- | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
 |  |  |  |  |  |  |  |
-| **[Scaled YoloV4 Tiny](https://drive.google.com/file/d/1t5GDjMGjFfCEKVhc51l57apGA6VmaZpL/view?usp=sharing)** | 416 | **21.7%** | **23\*%** | 120 *fps* | 1 Geforce RTX 3090Ti | Intel Core i7 10700K | 5.8M  | 23.1MB |
+| **[Scaled YoloV4 Tiny](https://drive.google.com/file/d/1j8BKl18zl60q6dQLwegKK2aYi_-znLrX/view?usp=sharing)** | 416 | **21.7%** | **23\*%** | 120 *fps* | 1 Geforce RTX 3090Ti | Intel Core i7 10700K | 5.8M  | 23.1MB |
 |  |  |  |  |  |  |  |
 
 The recorded speed is based on the process we tested on the computer with CPU & GPU information as shown in the table above (with onnxruntime, without tensorrt).
@@ -65,7 +65,7 @@ The recorded speed is based on the process we tested on the computer with CPU & 
     │
     ├── models ├── checkpoint (save checkpoint during training)
     |          ├── pretrained (on Coco dataset)
-    │          ├── saved (save the best model)
+    │          ├── best (save the best model)
     │          └── onnx (tf2onnx)
     │
     ├── logdata (contain data of explore_data.py)
@@ -77,9 +77,7 @@ The recorded speed is based on the process we tested on the computer with CPU & 
 ## 5. Usage
 
 ### Prepare Data
-Scaled YoloV4 Tiny requires JPG format for images, Pascal VOC (XML) format for annotaions. If your image data is PNG for images or TXT|JSON for annotations, we provide tools to help you convert to. With images at [here](https://github.com/nguyentruonglau/png2jpg) and with annotations for [json Coco format](https://github.com/nguyentruonglau/json2xml) and [txt Coco format](https://github.com/nguyentruonglau/txt2xml).
-
-You can use **view_annotation.py** function at [here](https://github.com/nguyentruonglau/view-annotation) to see if your label is correct or not, this function will help draw your label on the image. Also we have some useful tools: auto split train test, explore data,... at **utility** directory.
+Scaled YoloV4 Tiny requires JPG format for images, Pascal VOC (XML) format for annotaions. If your image data is PNG for images or TXT|JSON for annotations, we provide tools to help you convert to. With images at [here](https://github.com/nguyentruonglau/png2jpg) and with annotations for [json Coco format](https://github.com/nguyentruonglau/json2xml) and [txt Coco format](https://github.com/nguyentruonglau/txt2xml). Also we have some useful tools: auto split train test, explore data,... at **utility** directory.
 
 
 ### Training
