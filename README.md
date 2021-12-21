@@ -15,10 +15,10 @@ Scaled YoloV4 Tiny, this is the implementation of "[Scaled-YOLOv4: Scaling Cross
 | Model | Test Size | AP<sup>test</sup> | AP<sup>test</sup>(TTA) | FPS | GPU | CPU | PARAM | CAPACITY |
 | :-- | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
 |  |  |  |  |  |  |  |
-| **[Scaled YoloV4 Tiny](https://drive.google.com/file/d/1j8BKl18zl60q6dQLwegKK2aYi_-znLrX/view?usp=sharing)** | 416 | **21.7%** | **23\*%** | 120 *fps* | 1 Geforce RTX 3090Ti | Intel Core i7 10700K | 5.8M  | 23.1MB |
+| **[Scaled YoloV4 Tiny](https://drive.google.com/file/d/1j8BKl18zl60q6dQLwegKK2aYi_-znLrX/view?usp=sharing)** | 416 | **21.7%** | **23%** | 120 *fps* | 1 Geforce RTX 3090Ti | Intel Core i7 10700K | 5.8M  | 23.1MB |
 |  |  |  |  |  |  |  |
 
-The recorded speed is based on the process we tested on the computer with CPU & GPU information as shown in the table above (with onnxruntime, without tensorrt).
+The recorded speed is based on the process we tested on the computer with CPU & GPU information as shown in the table above (with onnxruntime, FP32 and FPS = 1/(inference time + nms time), without tensorrt)).
 
 **Note that: pretrained models are trained on COCO dataset.**
 
