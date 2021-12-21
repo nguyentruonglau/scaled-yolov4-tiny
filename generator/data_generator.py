@@ -1,5 +1,6 @@
 from PIL import Image
 import tensorflow as tf
+
 from generator.data_augmentation import alb_augmentation
 from generator.anchor_generator import anchor_generator
 from generator.anchor_generator import anchor_generator_one_class
@@ -18,7 +19,7 @@ import xml.etree.ElementTree as ET
 from generator import config_data as cfg
 
 
-def get_generator(args):
+def data_generator(args):
     """Get training and validation data
     """
     train_dataset = Generator(args, mode=0)

@@ -1,7 +1,5 @@
 import os,sys; sys.path.append('..')
 
-from synthetic.gen_utils import check_matched
-from synthetic.draw_utils import recursive_parse_xml_to_dict
 from imutils.paths import list_images
 from imutils.paths import list_files
 import matplotlib.pyplot as plt

@@ -1,7 +1,6 @@
 import sys,os; sys.path.append('..')
 
 from synthetic.draw_utils import recursive_parse_xml_to_dict
-from synthetic.gen_utils import ensure_dir
 from imutils.paths import list_files
 from preprocess import kmeans, avg_iou
 
@@ -20,6 +19,32 @@ def parser():
     parser.add_argument('--input-shape', type=tuple, default=(512, 512), help='input shape of model')
     parser.add_argument('--n-clusters', type=int, default=6, help='Number of clusters for kmean anchor, 6 with akaDET-S, 12 with akaDET-B')
     return parser.parse_args()
+
+
+def recursive_parse_xml_to_dict(xml):
+    """Recursively parses XML contents to python dict.
+    We assume that `object` tags are the only ones that can appear
+    multiple times at the same level of a tree.
+
+    Args:
+        xml: xml tree obtained by parsing XML file contents using lxml.etree
+    Returns:
+        Python dictionary holding XML contents.
+    """
+    # if don't see, exit
+    if len(xml) == 0:
+        return {xml.tag: xml.text}
+    result = {}
+    # else continue recursive
+    for child in xml:
+        child_result = recursive_parse_xml_to_dict(child)
+        if child.tag != 'object':
+            result[child.tag] = child_result[child.tag]
+        else:
+            if child.tag not in result:
+                result[child.tag] = []
+            result[child.tag].append(child_result[child.tag])
+    return {xml.tag: result}
 
 
 def get_data_infor(input_annotation_path):
@@ -121,19 +146,6 @@ def draw_image_ratio(df, num_bin):
     plt.close()
 
 
-def draw_box_ratio(df, num_bin):
-    """Draw and save aspect ratio of boxes
-    """
-    box_aspect_ratio = np.abs(df['xmax'] - df['xmin'])/np.abs(df['ymax'] - df['ymin'])
-    plt.hist(x=box_aspect_ratio, bins=num_bin, color='#49c5de')
-    plt.title('Aspect Ratio Of Boxes')
-    plt.xlabel('aspect ratio')
-    plt.ylabel('count')
-    # plt.show()
-    plt.savefig(os.path.join(args.output_dir, 'box_aspect_ratio.png'))
-    plt.close()
-
-
 def draw_box_count(df, num_bin):
     """Count the number of boxes of each category
     """
@@ -189,6 +201,7 @@ def resize_boxes(boxes, src_size, dst_size):
     boxes[:, 0:4] += np.tile(half_pad,2)
     return boxes
 
+
 def get_anchors(df, uni_names):
     """Get anchor boxes for training phase
     """
@@ -217,12 +230,14 @@ def main(args):
     # Crawl data and organize crawled data into dataframe
     df, uni_names = crawl_data2df(args); num_bin = len(uni_names)
     print('[INFOR]: Doing data statistics...')
-    # Draw, save aspect ratio of images and boxes
-    draw_image_ratio(df, num_bin); draw_box_ratio(df, num_bin)
+    # Draw aspect ratio of images
+    draw_image_ratio(df, num_bin);
     # Count the number of boxes of each category
     draw_box_count(df, num_bin)
-    # Calculate the averacge area of the boxes for each category and get anchor box
-    draw_avg_box_area(df); get_anchors(df, uni_names)
+    # Calculate the averacge area of the boxes for each category
+    draw_avg_box_area(df);
+    # Get anchor box
+    get_anchors(df, uni_names)
     print('[INFOR]: Completion!')
 
 

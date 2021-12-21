@@ -9,7 +9,7 @@ from utility.eager_coco_map import EagerCocoMap
 from utility.lr_scheduler import get_lr_scheduler
 from utility.fit_coco_map import CocoMapCallback
 
-from generator.generator import get_generator
+from generator.data_generator import data_generator
 from utils import load_pretrained_model
 from utils import check_input_shape
 
@@ -135,7 +135,7 @@ if __name__ == "__main__":
     #check argument
     check_input_shape(args)
     #load data
-    train_generator, valid_dataset = get_generator(args)
+    train_generator, valid_dataset = data_generator(args)
     #load model
     model = load_pretrained_model(args)
     # model.summary()
