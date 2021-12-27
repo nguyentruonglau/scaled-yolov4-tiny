@@ -1,2 +1,0 @@
-model_checkpoint_path: "coco_pretrain"
-all_model_checkpoint_paths: "coco_pretrain"
