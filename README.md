@@ -15,10 +15,9 @@ Scaled YoloV4 Tiny, this is the implementation of "[Scaled-YOLOv4: Scaling Cross
 | Model | Test Size | AP<sup>test</sup> | AP<sup>test</sup>(TTA) | FPS | GPU | CPU | PARAM | CAPACITY |
 | :-- | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
 |  |  |  |  |  |  |  |
-| **[Scaled YoloV4 Tiny](https://drive.google.com/file/d/1j8BKl18zl60q6dQLwegKK2aYi_-znLrX/view?usp=sharing)** | 416 | **21.7%** | **23%** | 120 *fps* | 1 Geforce RTX 3090Ti | Intel Core i7 10700K | 5.8M  | 23.1MB |
-|  |  |  |  |  |  |  |
+| **[Scaled YoloV4 Tiny](https://drive.google.com/file/d/1j8BKl18zl60q6dQLwegKK2aYi_-znLrX/view?usp=sharing)** | 416 | **21.7%** | **23%** | 100 *fps* (GPU) & 60 *fps* (CPU) | 1 Geforce RTX 3090Ti | Intel Core i7 10700K | 5.8M  | 23.1MB |
 
-The recorded speed is based on the process we tested on the computer with CPU & GPU information as shown in the table above (with onnxruntime, FP32 and FPS = 1/(inference time + nms time), without tensorrt)).
+The recorded speed is based on the process we tested on the computer with CPU & GPU information as shown in the table above (with onnx & onnxruntime, FP32 and FPS = 1/(inference time + diou nms time), max can reach 252 FPS, without tensorrt)). Also acording to the "[Scaled-YOLOv4: Scaling Cross Stage Partial Network](https://arxiv.org/abs/2011.08036)" paper, AP<sup>test</sup> of [YoloV3 Tiny](https://arxiv.org/abs/1804.02767) achieved 16.6%.
 
 **Note that: pretrained models are trained on COCO dataset.**
 
@@ -32,33 +31,32 @@ The recorded speed is based on the process we tested on the computer with CPU & 
    # Step 2: Installing packages
   
       >python -m venv <virtual environments name>
-      >activate.bat (in scripts folder)
-      >pip install -r requirements.txt
+      >activate.bat [in scripts folder]
+      >pip install -r require.txt
+      
+   # Step 3: Installing Albumentations
+      >pip install -U git+https://github.com/albumentations-team/albumentations
 ```
 
 ## 3. Checking enviroment
 
 ```
-   # Check if tensorflow detected the GPU or not, make sure that you have (Cuda & Cuda Driver, CuDNN):
+   # Step 1: Check if tensorflow detected the GPU or not, make sure that you have (Cuda & Cuda Driver, CuDNN):
    
       >import tensorflow as tf
       >tf.config.list_physical_devices('GPU')
    
-   # If it returns: [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+   # Step 2: If it returns: [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
    then GPU available.
-
-   **Note that: if tensorflow doesn't detect GPU, see guide at: for Window -> https://www.tensorflow.org
-   /install/gpu#windows_setup & for Linux -> https://www.tensorflow.org/install/gpu#ubuntu_1804_cuda_110
-   (Tensorflow).
 ```
 
 ## 4. Directory structure
 ```
-├── database
+└── database
     ├── dataset ── <datasetname> ├── Annotations (contain XML files)
     │                            ├── ClassNames (contain class names of dataset)
     │                            ├── ImageSets (train.txt, val.txt -> utilitys/split_dataset.py )
-    │                            ├── JPEGImages (contain JPG images)
+    │                            └── JPEGImages (contain JPG images)
     │
     ├── images ├── input (contain images for detect.py)
     │          └── output (output of detect.py)
@@ -77,7 +75,7 @@ The recorded speed is based on the process we tested on the computer with CPU & 
 ## 5. Usage
 
 ### Prepare Data
-Scaled YoloV4 Tiny requires JPG format for images, Pascal VOC (XML) format for annotaions. If your image data is PNG for images or TXT|JSON for annotations, we provide tools to help you convert to. With images at [here](https://github.com/nguyentruonglau/png2jpg) and with annotations for [json Coco format](https://github.com/nguyentruonglau/json2xml) and [txt Coco format](https://github.com/nguyentruonglau/txt2xml). Also we have some useful tools: auto split train test, explore data,... at **utility** directory.
+Scaled YoloV4 Tiny requires JPG format for images, Pascal VOC (XML) format for annotaions. If your image data is PNG for images or TXT|JSON for annotations, we provide tools to help you convert to. With images at [here](https://github.com/nguyentruonglau/png2jpg) and with annotations for [json Coco format](https://github.com/nguyentruonglau/json2xml) and [txt Coco format](https://github.com/nguyentruonglau/txt2xml). Also we have some useful tools: auto split train-test, simple explore data program,... at **utility** directory.
 
 
 ### Training
@@ -85,7 +83,7 @@ Scaled YoloV4 Tiny requires JPG format for images, Pascal VOC (XML) format for a
 ```
    # Step 1: Downloading pretrained backbone on COCO dataset, provided at the first table above.
    
-   # Step 2: Tuning model hyperparameters
+   # Step 2: Tuning model hyperparameters at generator/config_data.py
    
    # Step 3: Training
       > python train.py --model-shape (model shape must: %32 == 0)
@@ -126,11 +124,13 @@ Distributed under the MIT License. See [LICENSE](https://github.com/qai-research
 
 ## Acknowledgements
 
-[1]. Scaled-YOLOv4: Scaling Cross Stage Partial Network [22/02/2021] [paper](https://arxiv.org/abs/2011.08036)
+[1]. Tensorflow2.x implementation of Scaled-YOLOv4 [repo](https://github.com/wangermeng2021/Scaled-YOLOv4-tensorflow2).
 
-[2]. YOLOv4: Optimal Speed and Accuracy of Object Detection [23/04/2020] [paper](https://arxiv.org/abs/2004.10934)
+[2]. Pytorch implementation of Scaled-YOLOv4 [repo](https://github.com/WongKinYiu/ScaledYOLOv4).
 
-[3]. EfficientDet: Scalable and Efficient Object Detection [27/07/2020] [paper](https://arxiv.org/abs/1911.09070)
+[3]. Scaled-YOLOv4: Scaling Cross Stage Partial Network [22/02/2021] [paper](https://arxiv.org/abs/2011.08036).
+
+[4]. YOLOv4: Optimal Speed and Accuracy of Object Detection [23/04/2020] [paper](https://arxiv.org/abs/2004.10934).
 
 ## Errors:
 
