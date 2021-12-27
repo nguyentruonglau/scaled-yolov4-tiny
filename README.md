@@ -10,7 +10,7 @@ SIMPLER, FASTER AND MORE ACCURATE
 
 ## 1. Model
 
-Scaled YoloV4 Tiny, this is the implementation of "[Scaled-YOLOv4: Scaling Cross Stage Partial Network](https://arxiv.org/abs/2011.08036)" using Tensorflow framwork.
+Scaled YoloV4 Tiny, this is the implementation of "[Scaled-YOLOv4: Scaling Cross Stage Partial Network](https://arxiv.org/abs/2011.08036)" using Tensorflow framework.
 
 | Model | Test Size | AP<sup>test</sup> | AP<sup>test</sup>(TTA) | FPS | GPU | CPU | PARAM | CAPACITY |
 | :-- | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
