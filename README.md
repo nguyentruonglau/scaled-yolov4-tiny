@@ -16,7 +16,7 @@ Scaled YoloV4 Tiny, this is the implementation of "[Scaled-YOLOv4: Scaling Cross
 | :-- | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
 |  |  |  |  |  |  |  |
 | **[Scaled YoloV4 Tiny](https://drive.google.com/file/d/1j8BKl18zl60q6dQLwegKK2aYi_-znLrX/view?usp=sharing)** | 416 | **21.7%** | **23%** | 100 *fps* (GPU) & 60 *fps* (CPU) | 1 Geforce RTX 3090Ti | Intel Core i7 10700K | 5.8M  | 23.1MB |
-|  |  |  |  |  |  |  |
+
 
 The recorded speed is based on the process we tested on the computer with CPU & GPU information as shown in the table above (with onnx & onnxruntime, FP32 and FPS = 1/(inference time + diou nms time), max can reach 252 FPS, without tensorrt)).
 
