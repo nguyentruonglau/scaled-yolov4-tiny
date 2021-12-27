@@ -15,7 +15,7 @@ Scaled YoloV4 Tiny, this is the implementation of "[Scaled-YOLOv4: Scaling Cross
 | Model | Test Size | AP<sup>test</sup> | AP<sup>test</sup>(TTA) | FPS | GPU | CPU | PARAM | CAPACITY |
 | :-- | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
 |  |  |  |  |  |  |  |
-| **[Scaled YoloV4 Tiny](https://drive.google.com/file/d/1j8BKl18zl60q6dQLwegKK2aYi_-znLrX/view?usp=sharing)** | 416 | **21.7%** | **23%** | 120 *fps* | 1 Geforce RTX 3090Ti | Intel Core i7 10700K | 5.8M  | 23.1MB |
+| **[Scaled YoloV4 Tiny](https://drive.google.com/file/d/1j8BKl18zl60q6dQLwegKK2aYi_-znLrX/view?usp=sharing)** | 416 | **21.7%** | **23%** | 100 *fps* (GPU) & 60 *fps* (CPU) | 1 Geforce RTX 3090Ti | Intel Core i7 10700K | 5.8M  | 23.1MB |
 |  |  |  |  |  |  |  |
 
 The recorded speed is based on the process we tested on the computer with CPU & GPU information as shown in the table above (with onnxruntime, FP32 and FPS = 1/(inference time + nms time), without tensorrt)).
@@ -32,24 +32,23 @@ The recorded speed is based on the process we tested on the computer with CPU & 
    # Step 2: Installing packages
   
       >python -m venv <virtual environments name>
-      >activate.bat (in scripts folder)
-      >pip install -r requirements.txt
+      >activate.bat [in scripts folder]
+      >pip install -r require.txt
+      
+   # Step 3: Installing Albumentations
+      >pip install -U git+https://github.com/albumentations-team/albumentations
 ```
 
 ## 3. Checking enviroment
 
 ```
-   # Check if tensorflow detected the GPU or not, make sure that you have (Cuda & Cuda Driver, CuDNN):
+   # Step 1: Check if Tensorflow detected the GPU or not, make sure that you have (Cuda & Cuda Driver, CuDNN):
    
       >import tensorflow as tf
       >tf.config.list_physical_devices('GPU')
    
-   # If it returns: [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
-   then GPU available.
-
-   **Note that: if tensorflow doesn't detect GPU, see guide at: for Window -> https://www.tensorflow.org
-   /install/gpu#windows_setup & for Linux -> https://www.tensorflow.org/install/gpu#ubuntu_1804_cuda_110
-   (Tensorflow).
+   # Step 2: If it returns: [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+   then one GPU available.
 ```
 
 ## 4. Directory structure
